@@ -1,0 +1,23 @@
+%{
+#include <stdio.h>
+int positive = 0, negative = 0;
+%}
+
+%%
+[0-9]+              { if(atoi(yytext) > 0) positive++; }
+-[0-9]+             { negative++; }
+[ \t\n]+            ;   /* ignore spaces, tabs, newlines */
+.                   ;   /* ignore other characters */
+%%
+
+int yywrap(void) {
+    return 1;
+}
+
+int main() {
+    printf("Enter numbers (press Ctrl+D to stop):\n");
+    yylex();
+    printf("\nCount of Positive Numbers: %d\n", positive);
+    printf("Count of Negative Numbers: %d\n", negative);
+    return 0;
+}

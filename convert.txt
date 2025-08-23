@@ -1,0 +1,18 @@
+/* Filename: convert.l */
+
+%{
+#include <stdio.h>
+%}
+
+%option noyywrap
+
+%%
+abc     { printf("ABC"); }    // Replace "abc" with "ABC"
+.       { printf("%s", yytext); }  // Print all other characters as they are
+\n      { printf("\n"); }     // Handle newlines properly
+%%
+
+int main() {
+    yylex();
+    return 0;
+}

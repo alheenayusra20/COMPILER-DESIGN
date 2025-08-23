@@ -1,0 +1,26 @@
+%{
+ #include <stdio.h>
+ int a, b;
+ char op;
+%}
+
+%%
+[0-9]+      { if(a==0) a=atoi(yytext); else b=atoi(yytext); }
+[+\-*/]     { op = yytext[0]; }
+.|\n        ;
+%%
+
+int yywrap(){ return 1; }
+
+int main() {
+    printf("Enter expression (e.g., 12+5): ");
+    yylex();
+    switch(op){
+        case '+': printf("Result = %d\n", a+b); break;
+        case '-': printf("Result = %d\n", a-b); break;
+        case '*': printf("Result = %d\n", a*b); break;
+        case '/': b!=0 ? printf("Result = %d\n", a/b) : printf("Division by zero!\n"); break;
+    }
+    return 0;
+}
+

@@ -1,0 +1,28 @@
+%{
+#include <stdio.h>
+extern FILE *yyin;
+%}
+
+%%
+
+hello     { printf("hi"); }       // Replace "hello" with "hi"
+.|\n      { ECHO; }               // Echo everything else
+
+%%
+
+int yywrap(void) {
+    return 1;
+}
+
+int main(int argc, char *argv[]) {
+    if (argc > 1) {
+        FILE *fp = fopen(argv[1], "r");
+        if (!fp) {
+            printf("Cannot open file %s\n", argv[1]);
+            return 1;
+        }
+        yyin = fp;
+    }
+    yylex();
+    return 0;
+}
